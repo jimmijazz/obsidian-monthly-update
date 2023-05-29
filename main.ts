@@ -276,7 +276,8 @@ export default class MyPlugin extends Plugin {
 				const { link, snippet } = item;
 
 				if (typeof link === 'string' && typeof snippet === 'string') {
-					markdown += `| [${link.split("/").pop()}](${link}) | ${snippet} | \n`;
+					// Add two column table. Link to article | snippet with line breaks replaced
+					markdown += `| [${link.split("/").pop()}](${link}) | ${snippet.replace(/(\r\n|\n|\r)/gm, "")} | \n`;
 				}
 			}
 
