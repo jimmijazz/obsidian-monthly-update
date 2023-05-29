@@ -125,7 +125,7 @@ export default class MyPlugin extends Plugin {
 			return matches ? matches.length : 0;
 		}
 
-		function getSnippets(content:string, tag:string, stopStrings = tags) {
+		function getSnippets(content: string, tag: string, stopStrings = tags) {
 			let result = [];
 			let currentIndex = 0;
 
@@ -136,7 +136,10 @@ export default class MyPlugin extends Plugin {
 					break;
 				}
 
-				const followingContent = content.substr(foundIndex + tag.length, 100);
+				let followingContent = content.substr(foundIndex + tag.length, 100);
+				followingContent += " ..."
+
+				// Make sure last character
 				let includeSnippet = true;
 
 				// Check if any stop string is encountered
@@ -269,15 +272,38 @@ export default class MyPlugin extends Plugin {
 			return markdown;
 		}
 
+
+		function countStringInstances(inputString, searchString) {
+			const regex = new RegExp(searchString, 'g');
+			const matches = inputString.match(regex);
+
+			if (matches) {
+				return matches.length;
+			} else {
+				return 0;
+			}
+		}
+
 		function generateObsidianTableMarkdown(data) {
 			let markdown = "| File | Snippet |\n";
 			markdown += "|------|---------|\n";
+
+			// Reverse data
+			data = data.reverse();
+
+
 			for (const item of data) {
 				const { link, snippet } = item;
 
 				if (typeof link === 'string' && typeof snippet === 'string') {
 					// Add two column table. Link to article | snippet with line breaks replaced
-					markdown += `| [${link.split("/").pop()}](${link}) | ${snippet.replace(/(\r\n|\n|\r)/gm, "")} | \n`;
+					// Replace all new lines in snippet
+
+					let filtered_snippet = snippet;
+					filtered_snippet = filtered_snippet.replace(/\n/g, ' ');	// Replace new lines with a space
+					filtered_snippet = filtered_snippet.replace(/(\[|\])/g, "\\$1"); // Replace [ and ] with \[ and \] to avoid breaking table markdown
+
+					markdown += `| [${link.split("/").pop()}](${link}) | ${filtered_snippet} | \n`;
 				}
 			}
 
