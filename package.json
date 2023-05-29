@@ -1,7 +1,7 @@
 {
-	"name": "obsidian-sample-plugin",
+	"name":"obsidian-monthly-update-plugin",
 	"version": "1.0.0",
-	"description": "This is a sample plugin for Obsidian (https://obsidian.md)",
+	"description": "Wraps up coding-update, business-update and monthly-update tags into a list",
 	"main": "main.js",
 	"scripts": {
 		"dev": "node esbuild.config.mjs",
