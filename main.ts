@@ -18,12 +18,12 @@ export default class MyPlugin extends Plugin {
 
 	async onload() {
 
-		const tags = ['business-update', 'coding-update', 'monthly-update']; // The tags that we want to search for. TODO: will have this as a setting
+		const tags = ['business-update', 'coding-update', 'monthly-update', 'slackscheduler', 'slackforms']; // The tags that we want to search for. TODO: will have this as a setting
 		const monthly_update_file_name = 'Monthly Update'; // File name of the monthly update file each month will have
 
 		await this.loadSettings();
 		this.addSettingTab(new SampleSettingTab(this.app, this));	// This adds a settings tab so the user can configure various aspects of the plugin
-		this.registerInterval(window.setInterval(() => console.log('setInterval'), 5 * 60 * 1000)); // When registering intervals, this function will automatically clear the interval when the plugin is disabled.
+		// this.registerInterval(window.setInterval(() => console.log('setInterval'), 5 * 60 * 1000)); // When registering intervals, this function will automatically clear the interval when the plugin is disabled.
 
 		/* Find all occurences of the tags in the files */
 
@@ -188,7 +188,7 @@ export default class MyPlugin extends Plugin {
 				const monthlyUpdateFile = app.vault.getAbstractFileByPath(monthlyUpdateFilePath);
 
 				if (!monthlyUpdateFile || monthlyUpdateFile == null) { // No file, create
-					console.log(`No file found for ${date}. Monthly update file at location: ${monthlyUpdateFile} Creating...`)
+					// console.log(`No file found for ${date}. Monthly update file at location: ${monthlyUpdateFile} Creating...`)
 					const directoryPath = monthlyUpdateFilePath.substring(0, monthlyUpdateFilePath.lastIndexOf("/"));
 
 					/* Create or update the markdown file. If the folder doesn't exist, create it first */
